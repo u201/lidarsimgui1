@@ -8,7 +8,7 @@ public class BeamParameterModel extends Model {
 		axialDivision = 100;
 		maxOrder = 2;
 		
-		setLabel("axialDivision", "Axial Division");
+		setLabel("axialDivision", "Axial division");
 		setLabel("maxOrder", "Max scattering order");
 	}
 

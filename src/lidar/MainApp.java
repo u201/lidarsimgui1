@@ -1,23 +1,15 @@
 package lidar;
 
-import java.nio.file.Files;
-import java.nio.file.Paths;
-
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
-import javafx.scene.control.MenuBar;
 import javafx.scene.control.Tab;
-import javafx.scene.control.TabPane;
-import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import lidar.model.AlsParameterModel;
 import lidar.model.BeamParameterModel;
 import lidar.model.DeviceParameterModel;
 import lidar.model.MlsParameterModel;
-import lidar.model.Model;
 import lidar.model.MonoPulseParameterModel;
 import lidar.model.TlsParameterModel;
 import lidar.view.AlsParameterController;
@@ -28,14 +20,13 @@ import lidar.view.MonoPulseParameterController;
 import lidar.view.RootLayoutController;
 import lidar.view.TextParameterViewController;
 import lidar.view.TlsParameterController;
-import utils.Const;
 
 public class MainApp extends Application {
 
 	private Stage primaryStage;
 	
 	private BorderPane rootLayout;
-	private RootLayoutController rootLayoutController;
+	public RootLayoutController rootLayoutController;
 	
 	public DeviceParameterModel deviceParameterModel;
 	public BeamParameterModel beamParameterModel;
@@ -57,13 +48,20 @@ public class MainApp extends Application {
 		primaryStage.setScene(scene);
 		primaryStage.show();
 		
+		update();	
+	}
+	
+	public void update() {
+		
+		rootLayoutController.clear();
+		
 		addDeviceParameter();
 		addBeamParameter();
 		
 		addTextParameterPlatform(new MonoPulseParameterController(monoPulseParameterModel), "Mono Pulse");
 		addTextParameterPlatform(new AlsParameterController(alsParameterModel), "ALS");
 		addTextParameterPlatform(new TlsParameterController(tlsParameterModel), "TLS");
-		addTextParameterPlatform(new MlsParameterController(mlsParameterModel), "MLS");		
+		addTextParameterPlatform(new MlsParameterController(mlsParameterModel), "MLS");
 	}
 	
 	private void addDeviceParameter() {
@@ -84,54 +82,13 @@ public class MainApp extends Application {
 		rootLayoutController.platformTabPane.getTabs().add(tab);
 	}
 	
-//	private void addAlsParameter() {
-//		AlsParameterController controller = new AlsParameterController(alsParameterModel);
-//		Tab tab = new Tab();
-//		tab.setText("ALS");
-//		tab.setClosable(false);
-//		tab.setContent(controller.parameterAnchorPane);
-//		rootLayoutController.platformTabPane.getTabs().add(tab);
-//	}
-//	
-//	private void addTlsParameter() {
-//		TlsParameterController controller = new TlsParameterController(tlsParameterModel);
-//		Tab tab = new Tab();
-//		tab.setText("TLS");
-//		tab.setClosable(false);
-//		tab.setContent(controller.parameterAnchorPane);
-//		rootLayoutController.platformTabPane.getTabs().add(tab);
-//	}
-	
 	private void instantiate() {
-		deviceParameterModel = new DeviceParameterModel();
-		if (Files.exists(Paths.get(Const.LIDAR_DEVICE_PARAMETER))) {
-			deviceParameterModel.load(Const.LIDAR_DEVICE_PARAMETER);
-		}
-		
+		deviceParameterModel = new DeviceParameterModel();		
 		beamParameterModel = new BeamParameterModel();
-		if (Files.exists(Paths.get(Const.LIDAR_BEAM_PARAMETER))) {
-			beamParameterModel.load(Const.LIDAR_BEAM_PARAMETER);
-		}
-		
 		monoPulseParameterModel = new MonoPulseParameterModel();
-		if (Files.exists(Paths.get(Const.LIDAR_MONO_PULSE_PARAMETER))) {
-			monoPulseParameterModel.load(Const.LIDAR_MONO_PULSE_PARAMETER);
-		}
-		
 		alsParameterModel = new AlsParameterModel();
-		if (Files.exists(Paths.get(Const.LIDAR_ALS_PARAMETER))) {
-			alsParameterModel.load(Const.LIDAR_ALS_PARAMETER);
-		}
-		
 		tlsParameterModel = new TlsParameterModel();
-		if (Files.exists(Paths.get(Const.LIDAR_TLS_PARAMETER))) {
-			tlsParameterModel.load(Const.LIDAR_TLS_PARAMETER);
-		}
-		
 		mlsParameterModel = new MlsParameterModel();
-		if (Files.exists(Paths.get(Const.LIDAR_MLS_PARAMETER))) {
-			mlsParameterModel.load(Const.LIDAR_MLS_PARAMETER);
-		}
 	}
 	
 	private void initRootLayout() {
@@ -148,6 +105,10 @@ public class MainApp extends Application {
 			e.printStackTrace();
 		}
 		
+	}
+	
+	public Stage getPrimaryStage() {
+		return primaryStage;
 	}
 
 	public static void main(String[] args) {

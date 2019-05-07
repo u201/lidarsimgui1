@@ -42,7 +42,9 @@ public class Model {
 			
 			for (Method m : this.getClass().getMethods()) {
 				if (setter.equals(m.getName())) {
-					return m.invoke(this);
+					Object value = m.invoke(this);
+//					System.out.println(fieldName + ": " + value.toString());
+					return value;
 				}
 			}
 			
@@ -83,6 +85,23 @@ public class Model {
 		}
 	}
 	
+	public void load(JSONObject json) {
+		try {
+			
+			for (Field f : this.getClass().getFields()) {
+				
+				if (f.getType().getName().equals("double")) {
+					setField(f.getName(), json.getDouble(f.getName()));
+				} else if (f.getType().getName().equals("int")) {
+					setField(f.getName(), json.getInt(f.getName()));
+				}
+				
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+	
 	public void save(String filename) {
 		try {
 			JSONObject json = new JSONObject();
@@ -93,10 +112,26 @@ public class Model {
 			
 			BufferedWriter writer = Files.newBufferedWriter(Paths.get(filename));
 //			json.write(writer);
-			writer.write(json.toString());
+			writer.write(json.toString(2));
 			writer.close();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+	}
+	
+	public JSONObject getJson() {
+		try {
+			JSONObject json = new JSONObject();
+			
+			for (Field f : this.getClass().getFields()) {
+				json.put(f.getName(), this.getField(f.getName()));
+			}
+			
+			return json;
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		return null;
 	}
 }

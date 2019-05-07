@@ -1,7 +1,5 @@
 package lidar.model;
 
-import java.lang.reflect.Method;
-
 public class DeviceParameterModel extends Model {
 	public double sensorArea;
 	public double footprintHalfAngle;
@@ -23,9 +21,9 @@ public class DeviceParameterModel extends Model {
 		this.fractionAtRadius = 0.368;
 		
 		setLabel("sensorArea", "Sensor area [m^2]");
-		setLabel("footprintHalfAngle", "Footprint Half Angle [rad]");
-		setLabel("halfFov", "FOV Half Angle [rad]");
-		setLabel("pulseEnergy", "Pulse Energy [mJ]");
+		setLabel("footprintHalfAngle", "Footprint half angle [rad]");
+		setLabel("halfFov", "FOV half angle [rad]");
+		setLabel("pulseEnergy", "Pulse energy [mJ]");
 		setLabel("acquisitionPeriod", "Acquisition rate (Period) [ns]");
 		setLabel("halfDurationNumberOfSigma", "Half duration [Number of sigma]");
 		setLabel("halfPulseDurationAtHalfPeak", "Half pulse duration at half peak [ns]");

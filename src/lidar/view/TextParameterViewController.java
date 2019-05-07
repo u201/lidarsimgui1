@@ -2,6 +2,7 @@ package lidar.view;
 
 import java.lang.reflect.Field;
 
+import javafx.geometry.Insets;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
@@ -16,6 +17,7 @@ public class TextParameterViewController {
 		parameterAnchorPane = new AnchorPane();
 		parameterVBox = new VBox();
 		parameterVBox.setSpacing(10);
+		parameterVBox.setPadding(new Insets(20,0,0,0));
 		
 		parameterAnchorPane.getChildren().add(parameterVBox);
 		this.model = model;
